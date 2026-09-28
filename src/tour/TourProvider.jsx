@@ -173,9 +173,20 @@ function useTargetRect(target, index) {
     }
     let scrolled = false;
     let raf;
+    // Pick a copy of the target that's actually showing: on phones the
+    // sidebar is slid off-screen, so its buttons can't be spotlighted.
+    const find = () => {
+      const vw = window.innerWidth;
+      return [...document.querySelectorAll(`[data-tour="${target}"]`)].find((el) => {
+        if (!el.getClientRects().length) return false;
+        const r = el.getBoundingClientRect();
+        const cs = getComputedStyle(el);
+        return r.width > 0 && r.height > 0 && r.right > 0 && r.left < vw && cs.visibility !== "hidden";
+      });
+    };
     const measure = () => {
-      const el = document.querySelector(`[data-tour="${target}"]`);
-      if (el && el.getClientRects().length) {
+      const el = find();
+      if (el) {
         if (!scrolled) {
           el.scrollIntoView({ block: "center", behavior: "smooth" });
           scrolled = true;

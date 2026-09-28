@@ -423,3 +423,9 @@ body.app-body { background: var(--aurora) fixed, var(--bg); }
 .tour-card.sheet .tour-go .btn { width: 100%; }
 .tour-card.sheet p { font-size: 13.5px; }
 .topbar .company { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Crash screen — never leave a visitor on an empty page */
+.crash { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: var(--aurora), var(--bg); color: var(--text); }
+.crash-card { max-width: 520px; width: 100%; padding: 30px; border-radius: 22px; }
+.crash-card h1 { font-size: 24px; letter-spacing: -0.02em; }
+.crash-card p { color: var(--text-2); margin-top: 10px; line-height: 1.6; }

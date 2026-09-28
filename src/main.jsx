@@ -7,6 +7,7 @@ import { AdvisorProvider } from "./components/AdvisorDock.jsx";
 import { TourProvider } from "./tour/TourProvider.jsx";
 import TourBridge from "./tour/TourBridge.jsx";
 import App from "./App.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import "./styles.css";
 import "./landing.css";
 
@@ -23,6 +24,7 @@ function ScopedStore({ children }) {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <ErrorBoundary>
     <HashRouter>
       <AuthProvider>
         <AdvisorProvider>
@@ -35,5 +37,6 @@ createRoot(document.getElementById("root")).render(
         </AdvisorProvider>
       </AuthProvider>
     </HashRouter>
+    </ErrorBoundary>
   </StrictMode>,
 );

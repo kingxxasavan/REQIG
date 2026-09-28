@@ -147,7 +147,7 @@ export default function Layout() {
               ))}
             </select>
           </label>
-          <button className="btn ghost icon-btn menu-btn" onClick={() => setDock(true)} aria-label="Open advisor"><Icon name="ai" /></button>
+          <button className="btn ghost icon-btn menu-btn" onClick={() => setDock(true)} aria-label="Open advisor" data-tour="advisor-button"><Icon name="ai" /></button>
           <ThemeButton />
           {encrypted && (
             <button className="btn ghost icon-btn" onClick={lock} title="Lock workspace" aria-label="Lock workspace">

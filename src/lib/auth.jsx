@@ -27,6 +27,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let unsub = () => {};
     let alive = true;
+    // Never leave people on the loading screen: if Firebase is slow or
+    // blocked, carry on as signed out. A late sign-in still takes over.
+    const giveUp = setTimeout(() => alive && setReady(true), 6000);
     loadAuth()
       .then(({ auth, sdk }) => {
         if (!alive) return;
@@ -38,6 +41,7 @@ export function AuthProvider({ children }) {
       .catch(() => setReady(true)); // offline: tour mode still works
     return () => {
       alive = false;
+      clearTimeout(giveUp);
       unsub();
     };
   }, []);

@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon, Logo } from "../components/Icons.jsx";
 import { Sparkline } from "../components/UI.jsx";
+import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import { useStore, useTheme } from "../lib/store.jsx";
 import { useAuth } from "../lib/auth.jsx";
 import { useTour } from "../tour/TourProvider.jsx";
@@ -306,9 +307,13 @@ export default function Landing() {
       <section className="hero" id="top">
         <div className="hero-aurora" aria-hidden="true" />
         <div className="grid-lines hero-grid-lines" aria-hidden="true" />
-        <Suspense fallback={null}>
-          <div className="hero-canvas" aria-hidden="true"><HelixCanvas /></div>
-        </Suspense>
+        <div className="hero-canvas" aria-hidden="true">
+          <ErrorBoundary quiet fallback={<div className="helix-fallback" />}>
+            <Suspense fallback={null}>
+              <HelixCanvas />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
         <div className="hero-veil" aria-hidden="true" />
         <div className="hero-inner">
           <Eyebrow>Financial manager for local business</Eyebrow>

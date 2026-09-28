@@ -192,3 +192,6 @@
 .analysis-steps div.done { color: var(--text); }
 .analysis-steps .ck { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-3); color: #fff; flex-shrink: 0; }
 .analysis-steps div.done .ck { background: var(--good); }
+
+/* Still stand-in for the 3D helix on devices without WebGL */
+.helix-fallback { position: absolute; inset: 0; background: radial-gradient(22% 60% at 50% 45%, rgba(124, 92, 255, 0.22), transparent 70%), radial-gradient(14% 44% at 56% 52%, rgba(34, 211, 238, 0.16), transparent 70%); }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 /**
@@ -6,8 +6,23 @@ import * as THREE from "three";
  * the Helix template. Raw three.js, paused when offscreen, and it respects
  * reduced-motion.
  */
+// Some devices can't give us WebGL (GPU disabled, low-power mode, too
+// many tabs, older phones). The hero must never take the page down with
+// it, so check first and fall back to a still glow.
+function webglAvailable() {
+  try {
+    const c = document.createElement("canvas");
+    const gl = window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"));
+    gl?.getExtension("WEBGL_lose_context")?.loseContext(); // free the probe's slot
+    return !!gl;
+  } catch {
+    return false;
+  }
+}
+
 export default function HelixCanvas() {
   const mountRef = useRef(null);
+  const [failed, setFailed] = useState(() => !webglAvailable());
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -26,11 +41,24 @@ export default function HelixCanvas() {
     const baseZ = () => (mount.clientWidth < 700 ? 38 : 26);
     camera.position.set(0, 0, baseZ());
 
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: "high-performance",
-    });
+    if (failed) return;
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance",
+      });
+    } catch {
+      setFailed(true);
+      return;
+    }
+    // The GPU can also drop the context later (sleep, driver reset).
+    const onLost = (e) => {
+      e.preventDefault();
+      setFailed(true);
+    };
+    renderer.domElement.addEventListener("webglcontextlost", onLost);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.setClearColor(0x000000, 0);
@@ -276,6 +304,7 @@ export default function HelixCanvas() {
     tick();
 
     return () => {
+      renderer.domElement.removeEventListener("webglcontextlost", onLost);
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
@@ -292,7 +321,9 @@ export default function HelixCanvas() {
         mount.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [failed]);
+
+  if (failed) return <div className="helix-fallback" aria-hidden="true" />;
 
   return (
     <div
