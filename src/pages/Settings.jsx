@@ -6,7 +6,7 @@ import { Icon } from "../components/Icons.jsx";
 import { industryList } from "../lib/industries.js";
 import { passphraseStrength, encryptJSON, deriveKey, newSalt, unlockEnvelope } from "../lib/crypto.js";
 import { download } from "../lib/parse.js";
-import { DemoPicker } from "./Landing.jsx";
+import DemoPicker from "../components/DemoPicker.jsx";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -90,7 +90,7 @@ export default function Settings() {
           )}
         </Card>
 
-        <Card title="Backups" subtitle="Encrypted backup files you can store anywhere">
+        <Card title="Backups" subtitle="Encrypted backup files you can store anywhere" tour="settings-backup">
           <div className="stack">
             <p className="small text-2">Backups are always encrypted with AES-256-GCM. {encrypted ? "Enter a passphrase for the backup file:" : "Use the passphrase fields on the left for the backup."}</p>
             {encrypted && (

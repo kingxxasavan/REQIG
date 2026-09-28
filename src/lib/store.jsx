@@ -5,9 +5,11 @@ import { generateDemo } from "./demo.js";
 import { analyze } from "./analytics.js";
 import { uid } from "./format.js";
 
-const PLAIN_KEY = "epri.workspace";
-const VAULT_KEY = "epri.vault";
+// Each signed-in account (and the guided tour) gets its own workspace on
+// this device, so two people sharing a laptop never see each other's books.
+const keysFor = (scope) => ({ PLAIN_KEY: `epri.${scope}.workspace`, VAULT_KEY: `epri.${scope}.vault` });
 const AUDIT_LIMIT = 300;
+const ADVISOR_LIMIT = 200;
 
 const Ctx = createContext(null);
 
@@ -28,14 +30,13 @@ const safeSet = (k, v) => {
 };
 
 function applyTheme(theme) {
-  const root = document.documentElement;
-  if (theme === "system") root.removeAttribute("data-theme");
-  else root.setAttribute("data-theme", theme);
-  safeSet("epri.theme", theme);
-  return theme;
+  const t = theme === "light" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", t);
+  safeSet("epri.theme", t);
+  return t;
 }
 
-function initial() {
+function initial({ PLAIN_KEY, VAULT_KEY }) {
   const vault = safeGet(VAULT_KEY);
   if (vault) {
     try {
@@ -55,15 +56,16 @@ function initial() {
   return { state: null, locked: false, envelope: null };
 }
 
-export function StoreProvider({ children }) {
-  const init = useRef(initial()).current;
+export function StoreProvider({ children, scope = "guest" }) {
+  const { PLAIN_KEY, VAULT_KEY } = useMemo(() => keysFor(scope), [scope]);
+  const init = useRef(initial(keysFor(scope))).current;
   const [state, setState] = useState(init.state);
   const [locked, setLocked] = useState(init.locked);
   const [encrypted, setEncrypted] = useState(!!init.envelope);
   const [toasts, setToasts] = useState([]);
   // The theme attribute is applied synchronously, before React re-renders,
   // so charts reading CSS tokens during render see the new values.
-  const [theme, setThemeState] = useState(() => applyTheme(safeGet("epri.theme") || "system"));
+  const [theme, setThemeState] = useState(() => applyTheme(safeGet("epri.theme") || "dark"));
   const setTheme = useCallback((t) => setThemeState(applyTheme(t)), []);
   const vault = useRef({ key: null, salt: null, envelope: init.envelope });
 
@@ -91,7 +93,7 @@ export function StoreProvider({ children }) {
     return () => {
       cancelled = true;
     };
-  }, [state, locked, encrypted]);
+  }, [state, locked, encrypted, PLAIN_KEY, VAULT_KEY]);
 
   const user = useMemo(() => state?.team?.find((m) => m.id === state.currentUserId) || state?.team?.[0] || null, [state]);
   const role = user?.role || "viewer";
@@ -139,7 +141,7 @@ export function StoreProvider({ children }) {
       safeSet(VAULT_KEY, JSON.stringify(env));
       safeSet(PLAIN_KEY, null);
     },
-    [state],
+    [state, PLAIN_KEY, VAULT_KEY],
   );
 
   const disableEncryption = useCallback(() => {
@@ -147,7 +149,7 @@ export function StoreProvider({ children }) {
     safeSet(VAULT_KEY, null);
     setEncrypted(false);
     safeSet(PLAIN_KEY, JSON.stringify(state));
-  }, [state]);
+  }, [state, PLAIN_KEY, VAULT_KEY]);
 
   const lock = useCallback(() => {
     if (!vault.current.key) return;
@@ -163,7 +165,7 @@ export function StoreProvider({ children }) {
     vault.current = { key, salt, envelope: env };
     setState(data);
     setLocked(false);
-  }, []);
+  }, [VAULT_KEY]);
 
   const resetWorkspace = useCallback(() => {
     vault.current = { key: null, salt: null, envelope: null };
@@ -172,7 +174,14 @@ export function StoreProvider({ children }) {
     setEncrypted(false);
     setLocked(false);
     setState(null);
+  }, [PLAIN_KEY, VAULT_KEY]);
+
+  // Advisor conversations are kept with the workspace (and encrypted with
+  // it), so an owner can scroll back to what they asked last week.
+  const saveAdvisor = useCallback((entry) => {
+    setState((prev) => (prev ? { ...prev, advisor: [{ id: uid(), at: new Date().toISOString(), ...entry }, ...(prev.advisor || [])].slice(0, ADVISOR_LIMIT) } : prev));
   }, []);
+  const clearAdvisor = useCallback(() => setState((prev) => (prev ? { ...prev, advisor: [] } : prev)), []);
 
   const analysis = useMemo(() => (state ? analyze(state) : null), [state]);
 
@@ -186,6 +195,9 @@ export function StoreProvider({ children }) {
     allowed,
     update,
     replaceState,
+    saveAdvisor,
+    clearAdvisor,
+    scope,
     loadDemo,
     switchUser,
     enableEncryption,

@@ -15,9 +15,9 @@ export function PageHead({ title, subtitle, children }) {
   );
 }
 
-export function Card({ title, subtitle, action, children, className = "", flush }) {
+export function Card({ title, subtitle, action, children, className = "", flush, tour }) {
   return (
-    <section className={`card ${flush ? "flush" : ""} ${className}`}>
+    <section className={`card ${flush ? "flush" : ""} ${className}`} data-tour={tour}>
       {(title || action) && (
         <div className="card-head" style={flush ? { padding: "18px 20px 0" } : undefined}>
           <div>

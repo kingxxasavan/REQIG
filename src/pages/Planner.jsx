@@ -79,7 +79,7 @@ export default function Planner() {
             ))}
           </div>
         </Card>
-        <Card title="Advertising plan" subtitle="Suggested split of the ad budget by channel" className="span2" action={<Seg value={stance} onChange={setStance} options={[{ value: "conservative", label: "Conservative" }, { value: "balanced", label: "Balanced" }, { value: "growth", label: "Growth" }]} />}>
+        <Card title="Advertising plan" subtitle="Suggested split of the ad budget by channel" className="span2" tour="planner-ads" action={<Seg value={stance} onChange={setStance} options={[{ value: "conservative", label: "Conservative" }, { value: "balanced", label: "Balanced" }, { value: "growth", label: "Growth" }]} />}>
           <div className="grid g2" style={{ alignItems: "start" }}>
             <HBar items={split.map((c) => ({ label: c.label, value: (adBudget * c.share) / horizon }))} label="Per month" currency={currency} />
             <div className="stack" style={{ gap: 10 }}>

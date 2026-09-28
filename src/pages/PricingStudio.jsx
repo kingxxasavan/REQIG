@@ -3,6 +3,7 @@ import { useStore } from "../lib/store.jsx";
 import { PageHead, Card, Field, NumInput, Pill, Seg, Toggle, Alert, Empty } from "../components/UI.jsx";
 import { MultiLine } from "../components/Charts.jsx";
 import { Icon } from "../components/Icons.jsx";
+import { useTourAction } from "../tour/TourProvider.jsx";
 import { industryList, getIndustry } from "../lib/industries.js";
 import { evaluate, project, compoundYears } from "../lib/pricing.js";
 import { money, pct, uid } from "../lib/format.js";
@@ -35,6 +36,23 @@ export default function PricingStudio() {
   const [p, setP] = useState(() => newProduct(state.company.industry, avgOps));
   const set = (k, v) => setP((x) => ({ ...x, [k]: v }));
   const ind = getIndustry(p.industry);
+
+  // Guided tour: cost a sourdough loaf from real bakery inputs.
+  useTourAction("pricing-fill", () => {
+    const m = (name, unit, price, qty) => ({ id: uid(), name, unit, price, qty });
+    const base = newProduct("restaurant", 1800);
+    setP(() => ({
+      ...base,
+      name: "Sourdough loaf",
+      items: [m("Flour", "kg", 1.1, 0.55), m("Butter", "kg", 9.5, 0.02), m("Takeaway packaging", "unit", 0.3, 1), m("Cooking oil", "litre", 2.6, 0.01)],
+      labourHours: 0.08,
+      labourRate: 19,
+      unitsPerMonth: 1400,
+      method: "margin",
+      methodValue: 25,
+      fees: base.fees.map((f) => ({ ...f, on: f.name === "Card processing" })),
+    }));
+  });
 
   const r = useMemo(() => evaluate(p), [p]);
   const proj = useMemo(() => project(p, 12), [p]);
@@ -81,7 +99,7 @@ export default function PricingStudio() {
             </div>
           </Card>
 
-          <Card title="2 · Materials & inputs" subtitle="Click a preset to add it, then set your price and how much goes into one unit.">
+          <Card title="2 · Materials & inputs" subtitle="Click a preset to add it, then set your price and how much goes into one unit." tour="pricing-materials">
             <div className="row wrap" style={{ gap: 8, marginBottom: 14 }}>
               {ind.materials.map((m) => (
                 <button key={m.name} className="chip" onClick={() => addItem(m)}>
@@ -151,7 +169,7 @@ export default function PricingStudio() {
         </div>
 
         <div className="stack" style={{ gap: 16, position: "sticky", top: 80, alignSelf: "start" }}>
-          <Card title="Result">
+          <Card title="Result" tour="pricing-result">
             {!valid ? (
               <Alert level="critical" title="Price can't be calculated" detail="The margin plus fees add up to 100% or more. Lower the target margin or fees." />
             ) : (

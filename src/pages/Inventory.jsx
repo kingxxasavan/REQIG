@@ -132,7 +132,7 @@ export default function Inventory() {
 
       {tab === "suppliers" && (
         <div className="grid g3">
-          <Card title="Supplier scorecards" subtitle="Score blends defect rate, on-time delivery and money lost" className="span2" flush>
+          <Card title="Supplier scorecards" subtitle="Score blends defect rate, on-time delivery and money lost" className="span2" flush tour="inv-main">
             {suppliers.length ? (
               <div className="table-wrap">
                 <table className="table">

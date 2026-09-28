@@ -104,6 +104,7 @@ export function generateDemo(industryKey = "restaurant") {
   employees.forEach((e) => {
     e.salary = Math.round(((monthlyPayroll * 12 * 0.85) * e.weight) / wsum / 100) * 100;
     delete e.weight;
+    if (e.salary < 26000) e.type = "Part-time";
   });
 
   const team = [

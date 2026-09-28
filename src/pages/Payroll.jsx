@@ -69,7 +69,7 @@ export default function Payroll() {
       </div>
 
       <div className="grid g3">
-        <Card title="Employees" className="span2" flush>
+        <Card title="Employees" className="span2" flush tour="payroll-table">
           <div className="table-wrap">
             <table className="table">
               <thead>

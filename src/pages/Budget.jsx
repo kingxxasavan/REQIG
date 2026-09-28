@@ -61,7 +61,7 @@ export default function Budget() {
         <Alert key={b.key} level="warning" title={`${b.label} is running ${pct(b.pace - 1, 0)} ahead of budget`} detail={`At this pace you'll spend ${money(b.projected, currency)} against ${money(b.annual, currency)} — ${money(b.projected - b.annual, currency)} over. Remaining this year: ${money(Math.max(0, b.remaining), currency)}.`} />
       ))}
 
-      <Card title="Budget vs actual" subtitle="The marker shows where spending should be by now" flush>
+      <Card title="Budget vs actual" subtitle="The marker shows where spending should be by now" flush tour="budget-table">
         <div className="table-wrap">
           <table className="table">
             <thead>

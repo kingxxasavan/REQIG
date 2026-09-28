@@ -60,7 +60,7 @@ export default function Complaints() {
       </div>
 
       <div className="grid g3">
-        <Card title="Complaint log" className="span2" flush action={<Seg value={filter} onChange={setFilter} options={[{ value: "all", label: "All" }, { value: "open", label: "Open" }, { value: "resolved", label: "Resolved" }]} />}>
+        <Card title="Complaint log" className="span2" flush tour="complaints-log" action={<Seg value={filter} onChange={setFilter} options={[{ value: "all", label: "All" }, { value: "open", label: "Open" }, { value: "resolved", label: "Resolved" }]} />}>
           {list.length ? (
             <div className="table-wrap">
               <table className="table">
