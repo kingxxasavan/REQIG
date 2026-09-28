@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useStore } from "../lib/store.jsx";
 import { PageHead, Card, Stat, Pill, Seg, Empty } from "../components/UI.jsx";
 import { HBar, ProfitBars } from "../components/Charts.jsx";
@@ -9,7 +10,9 @@ import { toCSV, download } from "../lib/parse.js";
 
 export default function Reports() {
   const { state, analysis: a, currency, allowed } = useStore();
-  const [view, setView] = useState("month");
+  const [params, setParams] = useSearchParams();
+  const view = params.get("view") === "pl" ? "pl" : "month";
+  const setView = (v) => setParams(v === "pl" ? { view: "pl" } : {}, { replace: true });
   const [sel, setSel] = useState(a.rows[a.rows.length - 1]?.month);
   if (a.empty) return <Card><Empty title="No data yet">Upload data to generate reports.</Empty></Card>;
 
@@ -63,7 +66,7 @@ function MonthReport({ a, state, sel, setSel, currency }) {
           </select>
         </label>
       </div>
-      <Card>
+      <Card tour="report-summary">
         <div className="row between wrap">
           <div>
             <div className="small muted">Monthly financial report</div>
@@ -143,7 +146,7 @@ function PL({ a, currency, canExport, company }) {
   };
   return (
     <>
-      <Card title="Profit & loss — last 12 months" action={canExport && <button className="btn sm" onClick={exportCSV}><Icon name="download" size={15} /> Export CSV</button>} flush>
+      <Card title="Profit & loss — last 12 months" action={canExport && <button className="btn sm" onClick={exportCSV} data-tour="report-export"><Icon name="download" size={15} /> Export CSV</button>} flush>
         <div className="table-wrap">
           <table className="table">
             <thead>

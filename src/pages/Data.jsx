@@ -78,7 +78,7 @@ export default function DataPage() {
       <ReadOnly perm="finance.edit" />
 
       <div className="grid g3">
-        <Card title="Upload financial data" className="span2">
+        <Card title="Upload financial data" className="span2" tour="data-upload">
           <FileDrop onFile={onFile} disabled={!canImport} />
           {err && <div style={{ marginTop: 12 }}><Alert level="critical" title="Import failed" detail={err} /></div>}
         </Card>

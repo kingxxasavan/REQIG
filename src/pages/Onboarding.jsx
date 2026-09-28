@@ -9,11 +9,13 @@ import { useStore } from "../lib/store.jsx";
 import { industryList, AGE_GROUPS, EXPENSE_CATEGORIES } from "../lib/industries.js";
 import { ROLES, DEPARTMENTS } from "../lib/rbac.js";
 import { readFileRows, rowsToMonths, rowsToEmployees } from "../lib/parse.js";
-import { generateMonths, lastCompleteMonth } from "../lib/demo.js";
+import { generateMonths, generateDemo, lastCompleteMonth } from "../lib/demo.js";
+import { useAuth } from "../lib/auth.jsx";
+import { useTourAction } from "../tour/TourProvider.jsx";
 import { analyze, CAT_KEYS } from "../lib/analytics.js";
 import { passphraseStrength } from "../lib/crypto.js";
 import { money, monthLabel, uid, addMonths } from "../lib/format.js";
-import { DemoPicker } from "./Landing.jsx";
+import DemoPicker from "../components/DemoPicker.jsx";
 
 const STEPS = ["Company", "Team & roles", "Financial history", "Customers", "Security", "Baseline"];
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -26,11 +28,12 @@ function blankMonths() {
 export default function Onboarding() {
   const nav = useNavigate();
   const { replaceState, enableEncryption, state: existing } = useStore();
+  const { user } = useAuth();
   const [step, setStep] = useState(0);
   const [demo, setDemo] = useState(false);
 
   const [company, setCompany] = useState({ name: "", industry: "", employees: 5, currency: "USD", fiscalStart: 1, location: "", cashOnHand: 0 });
-  const [owner, setOwner] = useState({ name: "", email: "" });
+  const [owner, setOwner] = useState({ name: user?.name || "", email: user?.email || "" });
   const [members, setMembers] = useState([]);
   const [months, setMonths] = useState([]);
   const [dataMode, setDataMode] = useState("upload");
@@ -88,6 +91,33 @@ export default function Onboarding() {
     nav("/app");
   };
 
+  // ---- guided tour: fill each step the way an owner would ----------------
+  useTourAction("onb-goto", (i) => setStep(i));
+  useTourAction("onb-fill-company", () => {
+    setCompany({ name: "Harbor Street Bakery & Café", industry: "restaurant", employees: 14, currency: "USD", fiscalStart: 1, location: "Springfield", cashOnHand: 98000 });
+  });
+  useTourAction("onb-fill-team", () => {
+    setOwner({ name: "Maya Dubois", email: "maya@harborstreetbakery.com" });
+    setMembers([{ name: "Jordan Rivera", email: "books@harborstreetbakery.com", role: "finance", dept: "Finance" }]);
+  });
+  useTourAction("onb-fill-data", async () => {
+    // Build real CSV files and send them through the same importer an
+    // upload uses, so the tour shows exactly what a real import does.
+    const m = generateMonths("restaurant");
+    const csv = ["Month,Sales,Ingredients,Rent & utilities,Wages,Advertising,Other", ...m.map((r) => [r.month, r.revenue, r.production, r.operations, r.payroll, r.marketing, r.other].join(","))].join("\n");
+    const file = new File([csv], "harbor-street-last-12-months.csv", { type: "text/csv" });
+    const res = rowsToMonths(await readFileRows(file));
+    setDataMode("upload");
+    setMonths(res.months);
+    setImportInfo({ file: file.name, ...res });
+    const staff = generateDemo("restaurant").employees;
+    const pcsv = ["name,title,department,type,salary", ...staff.map((e) => [e.name, e.title, e.dept, e.type, e.salary].join(","))].join("\n");
+    setEmployees(rowsToEmployees(await readFileRows(new File([pcsv], "payroll.csv", { type: "text/csv" }))));
+  });
+  useTourAction("onb-fill-customers", () => setDemographics({ customerType: "B2C", reach: "Local", ages: { "18-24": 16, "25-34": 32, "35-44": 24, "45-54": 16, "55+": 12 } }));
+  useTourAction("onb-skip-security", () => setPass({ p1: "", p2: "", skip: true }));
+  useTourAction("onb-finish", () => finish());
+
   return (
     <div className="onb">
       <div className="onb-top">
@@ -96,7 +126,7 @@ export default function Onboarding() {
             <Logo /> EPRI
           </Link>
           <div className="row" style={{ gap: 6 }}>
-            <button className="btn ghost sm" onClick={() => setDemo(true)}>Skip — use sample data</button>
+            <button className="btn ghost sm" onClick={() => setDemo(true)}>Use a sample business</button>
             <ThemeButton />
           </div>
         </div>
@@ -115,7 +145,7 @@ export default function Onboarding() {
             </div>
           ))}
         </div>
-        <div className="card onb-card">
+        <div className="card onb-card glass" data-tour="onb-card">
           {step === 0 && <StepCompany company={company} setCompany={setCompany} />}
           {step === 1 && <StepTeam owner={owner} setOwner={setOwner} members={members} setMembers={setMembers} />}
           {step === 2 && (

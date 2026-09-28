@@ -55,3 +55,15 @@ test("channel split sums to 1 and follows the audience", () => {
   assert.equal(young[young.length - 1].key, "local");
   assert.equal(b2b[0].key, "linkedin");
 });
+
+test("advisor matches topics on whole words and falls back to the page", async () => {
+  const { localAnswer } = await import("../src/lib/advisor.js");
+  const { generateDemo } = await import("../src/lib/demo.js");
+  const { analyze } = await import("../src/lib/analytics.js");
+  const s = generateDemo("restaurant");
+  const a = analyze(s);
+  assert.ok(!localAnswer("Is this bad?", a, s, "USD").startsWith("Marketing:"), '"bad" must not match "ad"');
+  assert.ok(!localAnswer("what's my current margin?", a, s, "USD").startsWith("Operations:"), '"current" must not match "rent"');
+  assert.ok(localAnswer("Is marketing too high?", a, s, "USD").startsWith("Marketing:"));
+  assert.ok(localAnswer("Is this bad?", a, s, "USD", "inventory").includes("costing you the most"));
+});

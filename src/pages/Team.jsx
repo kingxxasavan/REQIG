@@ -72,7 +72,7 @@ export default function Team() {
         </div>
       </Card>
 
-      <Card title="Permissions by role" flush>
+      <Card title="Permissions by role" flush tour="team-perms">
         <div className="table-wrap">
           <table className="table">
             <thead>

@@ -1,87 +1,81 @@
-# EPRI: automated financial manager for small businesses
+# EPRI: financial manager & advisor for local business
 
-EPRI works like a part-time financial advisor for local businesses. The owner uploads their production, operations and payroll numbers once. After that, EPRI reports every month on what the business made, warns when spending drifts, and explains the numbers in plain English.
+EPRI reads a small business's numbers every month and tells the owner, in plain English, **what they made, where the money went, and what to fix** before a small problem gets expensive.
 
-It runs entirely in the browser, so it works offline on a laptop or tablet, which is handy for a live demo at a Chamber of Commerce event. There's also an optional Claude-powered advisor.
+- **Accounts:** Google Firebase sign-in (email/password or Google).
+- **Books:** optionally encrypted with AES-256 using a passphrase only the owner knows.
+- **Hosting:** runs on Vercel.
 
-## Try it
+## Run it
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 22 unit tests: analytics, parsing, encryption, pricing
+npm test           # 23 unit tests: analytics, parsing, encryption, pricing, advisor
 npm run build      # static site in dist/
 ```
 
-Click **Live demo** and pick an industry. EPRI generates a realistic sample business with 12 months of books, a team, suppliers and complaints. None of it is real data, and nothing is sent to a server.
+## Deploy on Vercel
 
-## What's in it
+1. Import this repository in Vercel. `vercel.json` already sets the framework (Vite), build command, output folder and security headers.
+2. **Firebase sign-in:** in the Firebase console, go to Authentication → Settings → **Authorized domains** and add your Vercel domain (for example `epri.vercel.app`). Without this, sign-in on the live site shows "This website isn't on the sign-in allow-list yet".
+3. Make sure **Email/Password** and **Google** are enabled under Authentication → Sign-in method.
+4. *(Optional)* To use a different Firebase project, set `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`, `VITE_FIREBASE_STORAGE_BUCKET` and `VITE_FIREBASE_MESSAGING_SENDER_ID` in Vercel → Settings → Environment Variables. Otherwise the app uses the same project as Cryptic Hub. The web config isn't secret; who can sign in is controlled by the console settings above.
+5. *(Optional)* To turn on Claude-powered answers in the advisor, set `ANTHROPIC_API_KEY`. Without it, the built-in advisor answers instead.
+
+## The guided tour (for demos)
+
+**Take the 3-minute tour** on the landing page walks through the real app in 26 steps, using a sample bakery:
+
+1. **Sign up:** the details are typed in for you, and no real account is created.
+2. **Set up:** company and industry, team and roles, upload 12 months of books (a real CSV goes through the real importer), customers, passphrase, then the baseline.
+3. **Every month:** the dashboard, warnings, health score, the advisor, the monthly report, adding a new month, and budget vs actual.
+4. **Operations:** supplier scorecards, logging a damaged delivery, logging a complaint.
+5. **Tools:** costing a sourdough loaf in the Pricing Studio, and the ad-spend planner.
+6. **Team & security:** previewing as a viewer (payroll shows only their own row).
+7. **Export:** downloading the 12-month P&L as CSV, and encrypted backups.
+
+Each step spotlights one part of the screen, explains it, and says **"What you'd do"**. **Do it for me** fills in the sample data so visitors can watch the business take shape. You can also **Hide** the tour to click around yourself, and resume it later.
+
+The tour needs no account and no internet, so it works on a tablet at an event. It uses its own workspace, which is wiped when the tour ends.
+
+## What's in the app
 
 | Area | What it does |
 |---|---|
-| **Landing page** | The pitch: how it works, features, industries, security, AI, pricing and FAQ |
-| **Onboarding** | Six steps: company, team and roles, 12-month history upload, customer demographics, encryption passphrase, then the baseline |
-| **Dashboard** | Revenue vs expenses with a 3-month forecast, profit by month, spending by category, industry benchmarks, a 0–100 health score and alerts |
-| **Monthly reports** | Month-by-month report (vs last month, average and budget), a 12-month P&L, CSV export and print |
-| **AI Advisor** | Plain-English Q&A about your numbers. Uses a built-in rules engine, or Claude when an API key is set |
-| **Budget & spending** | Annual budgets per category with pace tracking, a year-end projection and overspend warnings |
-| **Data & uploads** | CSV / TSV / Excel / JSON import with preview, merge or replace, inline editing and export |
-| **Payroll** | Salaries by person and department, and labour cost as a share of revenue. Access is limited per row by role |
-| **Suppliers & inventory** | Stock levels and reorder alerts, a damaged-products log, a returns log, and supplier scorecards (defect rate, on-time delivery, money lost) |
-| **Complaints** | Complaint log with category, severity, status and **cost to resolve**, plus charts by category |
-| **Pricing studio** | Pick materials from **industry presets**, enter your prices and get unit cost, suggested price, margin and break-even. Includes a 12-month compounding projection and 5-year compound pricing |
-| **Spending planner** | Customer demographics produce a suggested ad budget and channel split. Also plans production and operations spending from forecast revenue |
-| **Team & roles** | 4 roles and 13 permissions, a permission matrix, "view as" any member, and an audit log |
-| **Security & settings** | Turn AES-256 encryption on or off, lock, encrypted backups and restore, company profile, reset |
-
-### Industries
-
-Technology/SaaS, E-commerce, Restaurant/Food, Retail, Manufacturing, Construction/Trades and Professional services. Each industry comes with its own benchmark ranges, material presets and fee presets (card processing, marketplace fees, delivery-app commission and so on). Everything is in `src/lib/industries.js`.
-
-### File formats
-
-Column names are matched loosely ("Sales", "COGS", "Wages", "Rent", "Ad spend"…). Two layouts are supported:
-
-- **Monthly totals:** one row per month, e.g. `month, revenue, production, operations, payroll, marketing, other`
-- **Transactions:** one row per entry, `date, category, amount`, totalled per month automatically
-
-Dates can be written as `2025-03`, `03/2025`, `3/14/2025`, `Mar 2025`, or as Excel date serials. Templates are in `public/templates/`.
+| **Advisor dock** | Opens beside any page (sidebar button, or press **A**). It knows which page you're on, suggests questions for that page, and saves every question to **History** with a "Go back to…" link and "Ask a follow-up" |
+| **Dashboard** | Revenue, spending and profit, a 3-month forecast, warnings, an industry comparison and a health score |
+| **Monthly reports** | A plain-English monthly report, a 12-month P&L, CSV export and printing |
+| **Budget & spending** | Yearly budgets with pace tracking and a year-end projection |
+| **Data & uploads** | CSV / TSV / Excel / JSON import with preview, merge or replace, and inline editing |
+| **Payroll** | Salaries by department and labour cost as a share of revenue. What you can see depends on your role, down to individual rows |
+| **Suppliers & inventory** | Stock and reorder alerts, damaged products, returns, and supplier scorecards |
+| **Complaints** | Every complaint and what it cost to resolve |
+| **Pricing studio** | Industry material presets → unit cost, price, margin, break-even, and compound pricing |
+| **Spending planner** | Customer demographics → ad budget split by channel, plus a production and operations plan |
+| **Team & roles** | 4 roles and 13 permissions, "Preview as" any member, and an audit log |
+| **Security & settings** | AES-256 encryption, lock, encrypted backups and restore, company profile |
 
 ## Security
 
-- **AES-256-GCM** encrypts the whole workspace at rest. It's authenticated encryption, so tampering is detected.
-- The key comes from the owner's passphrase via **PBKDF2-SHA256 with 310,000 iterations** and a random salt. The key is kept **in memory only**, so reloading the page locks the workspace again.
-- **RBAC:** every write goes through `update(permission, …)` in `src/lib/store.jsx`, so a hidden button isn't the only guard.
-- **Audit log:** every change records who made it and when.
-- Imports are checked for file type and a 5 MB size limit. **CSV exports are protected against formula injection.**
-- `vercel.json` sets a strict Content-Security-Policy, HSTS and anti-framing headers.
-- The AI advisor only receives **aggregates**, never names, salaries, customers or supplier details (`advisorSummary()` in `src/lib/analytics.js`).
+- **Sign-in:** Google Firebase Authentication. EPRI never sees or stores passwords, and repeated wrong guesses are blocked automatically.
+- **Separate workspaces:** each account has its own workspace, so two people on one device never share books.
+- **Encryption:** AES-256-GCM, with the key made from the owner's passphrase (PBKDF2-SHA256, 310,000 iterations). The key is held only in memory, so the workspace locks again on reload.
+- **Access control:** every change goes through a permission check, and every change is written to the audit log.
+- **Files:** uploads are checked for type and size (5 MB limit), and exported spreadsheets are protected against formula injection.
+- **AI privacy:** the advisor only ever receives totals and ratios.
+- **Headers:** `vercel.json` sets a strict Content-Security-Policy (allowing only the Firebase and Google Fonts hosts), HSTS, and anti-framing headers.
 
-> Note: this is a single-device demo build, and data lives in the browser. A production multi-user version needs a backend with real authentication. The RBAC model and permission checks here are designed to move across to it.
+> **Current limit:** financial data is stored in the browser, per account and per device. Syncing it across devices (for example with Firestore plus security rules) is the next step for a multi-device, multi-user product.
 
-## How the numbers are calculated
+## Design
 
-All numbers are calculated with transparent, unit-tested math (`src/lib/analytics.js`, `src/lib/pricing.js`). A language model never generates them.
+The look is carried over from the **Helix** template: a near-black background, frosted-glass panels, violet/cyan accents, Inter text with Instrument Serif italic highlights, an aurora glow, film grain, and the 3D particle helix in the hero. Like the Poly OS site, the landing page uses interactive tabbed panels (Product, How it works / Industries, Security) so there's less scrolling. There's also a light mode.
 
-- **Anomalies:** the latest month is flagged when a category is more than 20% above its trailing 6-month average *and* more than 1.5σ above it.
-- **Forecast:** a least-squares trend multiplied by a seasonal index. The index is pulled halfway toward 1 because one year of history is noisy.
-- **Budget pace:** year-to-date actual vs the budget prorated to the same point in the fiscal year.
-- **Health score:** a weighted blend of profitability (30%), growth (20%), spending vs industry (20%), budget discipline (15%) and stability (15%).
-- **Pricing:** percentage fees are taken from the selling price, so the price is solved for them rather than having them added on top.
+## Pitch notes
 
-## Optional: Claude-powered advisor
-
-Deploy to Vercel and set `ANTHROPIC_API_KEY`. The `api/advisor.js` function then answers questions with Claude. Without the key, the app uses its built-in advisor automatically.
-
-## Deploy
-
-The site is static, so any static host works (`npm run build` produces `dist/`). On Vercel, `vercel.json` is already configured, and the `api/` folder becomes the advisor function.
-
-## Pitch notes (Chamber of Commerce)
-
-**30 seconds:** "Most small businesses find out they're losing money months too late. EPRI reads your numbers every month and tells you in plain English what's wrong and what to do about it. It warns you before you overspend, tracks suppliers and complaints in dollars, and helps you price your products, for less than one hour with an accountant."
+**30 seconds:** "Most small businesses find out they're losing money months too late. EPRI reads your numbers every month and tells you in plain English what you made, where it went and what to fix. It warns you before you overspend, shows what bad suppliers and complaints actually cost, and helps you price your products, for less than one hour with an accountant."
 
 - **Compared with QuickBooks:** QuickBooks *records* the numbers. EPRI *interprets* them and *warns* you.
-- **Security:** AES-256 encryption with a key only the owner holds, role-based access and an audit trail.
-- **Pricing:** $19 / $49 / $99 per month, 20% off for Chamber members.
-- **Demo flow:** Live demo → Restaurant → dashboard alerts → Pricing studio → Team → "View as" a Viewer (payroll is hidden) → Settings → encrypt → reload (locked).
+- **Pricing:** $19 / $49 / $99 a month, with 2 months free on yearly plans.
+- **Demo:** open the site → **Take the 3-minute tour** → let them press **Do it for me** at each step.

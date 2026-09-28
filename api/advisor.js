@@ -28,7 +28,8 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   if (!configured) return res.status(503).json({ error: "Advisor not configured" });
 
-  const { question, summary, history } = req.body || {};
+  const { question, summary, history, page } = req.body || {};
+  const where = typeof page === "string" && page.length <= 60 ? page : null;
   if (typeof question !== "string" || !question.trim() || question.length > MAX_QUESTION) {
     return res.status(400).json({ error: "Invalid question" });
   }
@@ -54,7 +55,7 @@ export default async function handler(req, res) {
       system: SYSTEM,
       messages: [
         ...prior,
-        { role: "user", content: `Business summary (JSON):\n${summaryJson}\n\nQuestion: ${question.trim()}` },
+        { role: "user", content: `Business summary (JSON):\n${summaryJson}\n\n${where ? `The owner is looking at the "${where}" page, so "this" or "here" refers to it.\n\n` : ""}Question: ${question.trim()}` },
       ],
     });
     if (response.stop_reason === "refusal") {
