@@ -18,7 +18,7 @@ export function Hero() {
     <header className="relative flex min-h-[86svh] flex-col items-center justify-center px-4 pb-10 pt-16 text-center">
       <p className="rise inline-flex items-center gap-2 rounded-full border border-line-strong bg-white/[0.04] px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
         <span className="live-dot" aria-hidden />
-        Software studio · built with Claude Code
+        Built through vibecoding.
       </p>
 
       <Decrypt
@@ -36,7 +36,7 @@ export function Hero() {
           See projects <IconArrow size={16} />
         </Button>
         <Button href="#playbook" variant="glass">
-          <IconSpark size={16} /> AI Playbook
+          <IconSpark size={16} /> AI Usage Handbook
         </Button>
       </div>
 
