@@ -71,6 +71,16 @@ const SHOTS = {
       path: "/",
       before: (page) => wait(page, 1500),
     },
+    { name: "templates", path: "/templates" },
+    { name: "made-for-you", path: "/made-for-you" },
+    {
+      name: "tour",
+      path: "/",
+      before: async (page) => {
+        await page.getByRole("button", { name: /try a template live/i }).first().click();
+        await wait(page, 3000);
+      },
+    },
     { name: "template-page", path: "/t/helix-ai" },
     {
       name: "cart",
