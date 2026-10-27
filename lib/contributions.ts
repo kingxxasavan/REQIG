@@ -108,3 +108,10 @@ export function heatmapWeeks(daily: Record<string, number>, today: string): { da
   }
   return weeks;
 }
+
+// Every repo's commits per day added together, for the all-projects heatmap.
+export function mergeDaily(repos: RepoStats[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const r of repos) for (const [day, n] of Object.entries(r.daily)) out[day] = (out[day] ?? 0) + n;
+  return Object.fromEntries(Object.keys(out).sort().map((d) => [d, out[d]]));
+}

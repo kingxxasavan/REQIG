@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { parseGitLog, summarize, totals, heatmapWeeks } from "@/lib/contributions";
+import { parseGitLog, summarize, totals, heatmapWeeks, mergeDaily } from "@/lib/contributions";
 
 const RAW = [
   "@@a1\t2026-10-26T23:30:00-04:00\tClaude Opus <noreply@anthropic.com>",
@@ -76,4 +76,10 @@ test("lock files, minified files and imported third party templates don't count 
     "40\t0\ttemplates/helix-ai/page.tsx",
   ].join("\n");
   expect(parseGitLog(raw)).toEqual([{ date: "2026-10-02", additions: 45, deletions: 0, claude: false }]);
+});
+
+test("mergeDaily adds every repo's commits per day", () => {
+  const a = summarize("polyos", parseGitLog(RAW));
+  const b = summarize("epri", parseGitLog("@@x\t2026-10-26T09:00:00+00:00\t"));
+  expect(mergeDaily([a, b])).toEqual({ "2026-10-20": 1, "2026-10-26": 2 });
 });

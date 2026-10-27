@@ -247,3 +247,71 @@ body::before {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- home ---------- */
+.rise {
+  animation: rise 700ms var(--ease-out) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.tilt-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition:
+    transform 400ms var(--ease-out),
+    border-color 300ms ease;
+}
+.tilt-card:hover {
+  border-color: color-mix(in oklab, var(--card-accent) 40%, transparent);
+}
+.tilt-shot {
+  transform: translate3d(calc(var(--ry) * -0.8px), calc(var(--rx) * 0.8px), 0);
+  transition: transform 400ms var(--ease-out);
+}
+.tilt-glow {
+  opacity: 0;
+  background: radial-gradient(360px circle at var(--gx, 50%) var(--gy, 50%), color-mix(in oklab, var(--card-accent) 22%, transparent), transparent 70%);
+  transition: opacity 300ms ease;
+}
+.tilt-card:hover .tilt-glow {
+  opacity: 1;
+}
+
+.heat.armed .heat-cell {
+  opacity: 0;
+}
+.heat.in .heat-cell {
+  animation: cell-in 420ms var(--ease-out) both;
+  animation-delay: calc(var(--d) * 8ms);
+}
+@keyframes cell-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+.bar {
+  animation: grow 900ms var(--ease-out) both;
+}
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
