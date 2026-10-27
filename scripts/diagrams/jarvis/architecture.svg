@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#0b2a3f"/><stop offset="1" stop-color="#03070d"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#67e8f9" stroke-opacity="0.05"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#67e8f9"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <text x="80" y="104" font-family="Inter" font-weight="600" font-size="44" fill="#e8f6ff">How JARVIS fits together</text>
+  <text x="80" y="148" font-family="Inter" font-size="22" fill="#8aa4b8">A website you can open anywhere, plus an agent on your own laptop. Nothing on the laptop is exposed to the internet.</text>
+  <g>
+    <rect x="80" y="260" width="340" height="200" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#67e8f9" stroke-opacity="0.45"/>
+    <rect x="81" y="261" width="338" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="104" y="294" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#67e8f9">ANYWHERE</text>
+    <text x="104" y="322" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Browser</text>
+    <text x="104" y="352" font-family="Inter" font-size="20" fill="#8aa4b8">Chromebook, phone, laptop</text><text x="104" y="382" font-family="Inter" font-size="20" fill="#8aa4b8">chat, voice, apps, files</text>
+  </g>
+<g>
+    <rect x="560" y="230" width="480" height="260" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#7c8cff" stroke-opacity="0.45"/>
+    <rect x="561" y="231" width="478" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="584" y="264" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#7c8cff">VERCEL</text>
+    <text x="584" y="292" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">web/ (Next.js)</text>
+    <text x="584" y="322" font-family="Inter" font-size="20" fill="#8aa4b8">login + two-factor</text><text x="584" y="352" font-family="Inter" font-size="20" fill="#8aa4b8">chat, tools, memory</text><text x="584" y="382" font-family="Inter" font-size="20" fill="#8aa4b8">arkia.buzz, YouTube</text>
+  </g>
+<g>
+    <rect x="1180" y="200" width="340" height="150" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#a78bfa" stroke-opacity="0.45"/>
+    <rect x="1181" y="201" width="338" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="1204" y="234" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#a78bfa">PRIMARY</text>
+    <text x="1204" y="262" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">NVIDIA NIM</text>
+    <text x="1204" y="292" font-family="Inter" font-size="20" fill="#8aa4b8">nemotron 120B</text>
+  </g>
+<g>
+    <rect x="1180" y="390" width="340" height="150" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#a78bfa" stroke-opacity="0.45"/>
+    <rect x="1181" y="391" width="338" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="1204" y="424" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#a78bfa">FALLBACK</text>
+    <text x="1204" y="452" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Ollama Cloud</text>
+    <text x="1204" y="482" font-family="Inter" font-size="20" fill="#8aa4b8">gpt-oss 120B</text>
+  </g>
+<g>
+    <rect x="560" y="600" width="480" height="190" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#7c8cff" stroke-opacity="0.45"/>
+    <rect x="561" y="601" width="478" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="584" y="634" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#7c8cff">SUPABASE</text>
+    <text x="584" y="662" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Postgres + Auth</text>
+    <text x="584" y="692" font-family="Inter" font-size="20" fill="#8aa4b8">conversations, memory</text><text x="584" y="722" font-family="Inter" font-size="20" fill="#8aa4b8">jobs, devices, files</text>
+  </g>
+<g>
+    <rect x="1180" y="610" width="340" height="180" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#67e8f9" stroke-opacity="0.45"/>
+    <rect x="1181" y="611" width="338" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="1204" y="644" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#67e8f9">YOUR LAPTOP</text>
+    <text x="1204" y="672" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">agent/ (Python)</text>
+    <text x="1204" y="702" font-family="Inter" font-size="20" fill="#8aa4b8">apps, media, files</text><text x="1204" y="732" font-family="Inter" font-size="20" fill="#8aa4b8">Claude Code builds</text>
+  </g>
+<g>
+    <line x1="420" y1="360" x2="556" y2="360" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    <text x="488" y="348" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#67e8f9">HTTPS</text>
+  </g>
+<g>
+    <line x1="1040" y1="300" x2="1176" y2="275" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    
+  </g>
+<g>
+    <line x1="1040" y1="420" x2="1176" y2="465" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5" stroke-dasharray="8 8" marker-end="url(#arrow)" />
+    
+  </g>
+<g>
+    <line x1="800" y1="490" x2="800" y2="596" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+    
+  </g>
+<g>
+    <line x1="1176" y1="700" x2="1044" y2="700" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    <text x="1110" y="686" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#67e8f9">polls for jobs</text>
+  </g>
+<text x="1350" y="830" text-anchor="middle" font-family="JetBrains Mono" font-size="15" fill="#8aa4b8">outbound only + Cloudflare Tunnel for streamed apps</text>
+</svg>

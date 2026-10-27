@@ -1,6 +1,10 @@
 node_modules
-dist
+.next
+out
+next-env.d.ts
+public/downloads
+*.tsbuildinfo
 .vercel
 .env*
-!.env.example
 .DS_Store
+.superpowers

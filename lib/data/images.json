@@ -1,0 +1,190 @@
+{
+  "/backdrop.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/cryptic-hub/aria.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/cryptic-hub/calendar.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/cryptic-hub/hallows.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/cryptic-hub/home.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/cryptic-hub/notes.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/epri/advisor.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/epri/dashboard.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/epri/landing.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/epri/pricing-studio.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/epri/reports.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/atelier-lookbook.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/aurora-commerce.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/cart.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/ember-table.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/helix-ai.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/made-for-you.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/monolith-portfolio.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/pulse-fitness.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/quill-journal.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/sable-studio.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/foundry/store-home.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/template-page.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/templates.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/tour.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/foundry/vertex-launch.webp": {
+    "width": 1100,
+    "height": 825
+  },
+  "/projects/jarvis/agent.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/jarvis/architecture.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/jarvis/login.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/jarvis/memory.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/marketplace/checkout.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/marketplace/creator-studio.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/marketplace/explore.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/marketplace/home.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/marketplace/product.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/desktop.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/driver-manager.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/files.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/installer-drives.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/installer-welcome.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/login.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/polymarket.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/settings-appearance.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/start-menu.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/task-manager.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/vara.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/polyos/widgets.webp": {
+    "width": 1440,
+    "height": 900
+  }
+}

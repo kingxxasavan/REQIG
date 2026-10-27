@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#0b2a3f"/><stop offset="1" stop-color="#03070d"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#67e8f9" stroke-opacity="0.05"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#67e8f9"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <text x="80" y="104" font-family="Inter" font-weight="600" font-size="44" fill="#e8f6ff">Build me a project on my laptop</text>
+  <text x="80" y="148" font-family="Inter" font-size="22" fill="#8aa4b8">One sentence in chat becomes a real project: Claude Code runs on the laptop and the log streams back live.</text>
+  <g>
+    <rect x="80" y="230" width="300" height="220" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#67e8f9" stroke-opacity="0.45"/>
+    <rect x="81" y="231" width="298" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="104" y="264" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#67e8f9">1  YOU</text>
+    <text x="104" y="292" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Ask in chat</text>
+    <text x="104" y="322" font-family="Inter" font-size="20" fill="#8aa4b8">"build a timer app</text><text x="104" y="352" font-family="Inter" font-size="20" fill="#8aa4b8">on my laptop"</text>
+  </g>
+<g>
+    <rect x="460" y="230" width="300" height="220" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#7c8cff" stroke-opacity="0.45"/>
+    <rect x="461" y="231" width="298" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="484" y="264" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#7c8cff">2  JARVIS</text>
+    <text x="484" y="292" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Queues a job</text>
+    <text x="484" y="322" font-family="Inter" font-size="20" fill="#8aa4b8">saved in Supabase</text><text x="484" y="352" font-family="Inter" font-size="20" fill="#8aa4b8">for the paired device</text>
+  </g>
+<g>
+    <rect x="840" y="230" width="300" height="220" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#67e8f9" stroke-opacity="0.45"/>
+    <rect x="841" y="231" width="298" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="864" y="264" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#67e8f9">3  LAPTOP AGENT</text>
+    <text x="864" y="292" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Picks it up</text>
+    <text x="864" y="322" font-family="Inter" font-size="20" fill="#8aa4b8">polls every few</text><text x="864" y="352" font-family="Inter" font-size="20" fill="#8aa4b8">seconds, outbound only</text>
+  </g>
+<g>
+    <rect x="1220" y="230" width="300" height="220" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#a78bfa" stroke-opacity="0.45"/>
+    <rect x="1221" y="231" width="298" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="1244" y="264" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#a78bfa">4  CLAUDE CODE</text>
+    <text x="1244" y="292" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Writes the code</text>
+    <text x="1244" y="322" font-family="Inter" font-size="20" fill="#8aa4b8">in a new folder</text><text x="1244" y="352" font-family="Inter" font-size="20" fill="#8aa4b8">on the laptop</text>
+  </g>
+<g>
+    <rect x="460" y="560" width="680" height="220" rx="20" fill="#0a1824" fill-opacity="0.85" stroke="#7c8cff" stroke-opacity="0.45"/>
+    <rect x="461" y="561" width="678" height="2" rx="1" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="484" y="594" font-family="JetBrains Mono" font-size="14" letter-spacing="2" fill="#7c8cff">5  BACK IN THE BROWSER</text>
+    <text x="484" y="622" font-family="Inter" font-weight="600" font-size="26" fill="#e8f6ff">Live log in Tasks, then a git commit</text>
+    <text x="484" y="652" font-family="Inter" font-size="20" fill="#8aa4b8">optional push to a private GitHub repo</text><text x="484" y="682" font-family="Inter" font-size="20" fill="#8aa4b8">no Claude Code? JARVIS writes the files itself</text>
+  </g>
+<g>
+    <line x1="380" y1="340" x2="456" y2="340" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    
+  </g>
+<g>
+    <line x1="760" y1="340" x2="836" y2="340" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    
+  </g>
+<g>
+    <line x1="1140" y1="340" x2="1216" y2="340" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    
+  </g>
+<g>
+    <line x1="1370" y1="450" x2="1144" y2="640" stroke="#67e8f9" stroke-opacity="0.8" stroke-width="2.5"  marker-end="url(#arrow)" />
+    <text x="1330" y="560" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#67e8f9">log + result</text>
+  </g>
+</svg>
