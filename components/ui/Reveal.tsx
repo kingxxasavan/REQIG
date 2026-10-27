@@ -9,6 +9,8 @@ export function Reveal({ children, delay = 0, className = "" }: { children: Reac
   return (
     <motion.div
       className={className}
+      // scale from the top edge, so a section someone just scrolled to doesn't shift under them
+      style={{ transformOrigin: "50% 0%" }}
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
       whileInView={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.15 }}
