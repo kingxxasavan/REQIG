@@ -177,7 +177,7 @@ export const PROJECTS: Project[] = [
       {
         name: "Perlexity (AndrewInput on Scratch)",
         role: "Original creator and collaborator",
-        body: "PolyOS started as Perlexity's operating system built in Scratch. Cryptic Inc rebuilt it as a real Debian desktop as a birthday present for him, and he has been part of it ever since.",
+        body: "PolyOS started as Perlexity's operating system built in Scratch. Cryptic Inc rebuilt it as a real Debian desktop as a birthday present for him, and he is credited on it as a collaborator.",
         url: "https://scratch.mit.edu/users/PolyOS/",
       },
       {

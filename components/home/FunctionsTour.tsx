@@ -6,7 +6,7 @@ import { PROJECTS } from "@/lib/data/projects";
 import { AppIcon } from "@/components/ui/AppIcon";
 import { BrowserFrame } from "@/components/ui/BrowserFrame";
 import { Shot } from "@/components/ui/Shot";
-import { frameUrl } from "./ProjectCard";
+import { frameUrl } from "@/lib/frame-url";
 
 // A tab per project; inside, the functions list scrolls past a sticky screenshot that
 // swaps to whichever function is in the middle of the screen (or clicked).

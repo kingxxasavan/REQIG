@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import type { Project } from "@/lib/types";
+import { frameUrl } from "@/lib/frame-url";
 import { AppIcon } from "@/components/ui/AppIcon";
 import { BrowserFrame } from "@/components/ui/BrowserFrame";
 import { Chip } from "@/components/ui/Chip";
@@ -10,12 +11,6 @@ import { Decrypt } from "@/components/ui/Decrypt";
 import { Button } from "@/components/ui/Button";
 import { IconExternal, IconGithub } from "@/components/ui/Icons";
 import { Shot } from "@/components/ui/Shot";
-
-export function frameUrl(p: Project) {
-  if (p.live) return p.live.url.replace(/^https:\/\//, "");
-  if (p.source.visibility === "public") return `github.com/${p.source.repo}`;
-  return "private";
-}
 
 // A project card that tilts toward the pointer (up to 6 degrees) while the screenshot
 // drifts the other way and the accent glow follows. Fine pointers only.
