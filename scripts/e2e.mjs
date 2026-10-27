@@ -38,6 +38,31 @@ async function page(options = {}) {
 
 const inside = (box, vw, vh) => box && box.x >= 0 && box.y >= 0 && box.x + box.width <= vw + 0.5 && box.y + box.height <= vh + 0.5;
 
+async function scrollThrough(p) {
+  const total = await p.evaluate(() => document.documentElement.scrollHeight);
+  for (let y = 0; y <= total; y += 200) {
+    await p.evaluate((y) => window.scrollTo(0, y), y);
+    await p.waitForTimeout(60);
+  }
+  await p.waitForTimeout(800);
+}
+
+// section windows that are see-through or still transformed, counting their wrappers
+const hiddenWindows = (p, { transform = false } = {}) =>
+  p.evaluate((transform) => {
+    const bad = [];
+    for (const s of document.querySelectorAll("section.window")) {
+      for (let el = s; el && el !== document.body; el = el.parentElement) {
+        const cs = getComputedStyle(el);
+        if (parseFloat(cs.opacity) < 0.99 || (transform && cs.transform !== "none")) {
+          bad.push(s.id || s.querySelector("h2")?.textContent || "?");
+          break;
+        }
+      }
+    }
+    return bad;
+  }, transform);
+
 try {
   const p = await page();
 
@@ -105,6 +130,30 @@ try {
     assert((await p.getByRole("dialog").count()) === 0, "lightbox still open");
   });
 
+  await check("lightbox Next keeps focus, so pressing Enter twice moves twice", async () => {
+    const thumb = p.getByRole("button", { name: /Open screenshot: Vara/ });
+    await thumb.click();
+    await p.getByRole("dialog").waitFor({ timeout: 3000 });
+    const next = p.getByRole("button", { name: "Next screenshot" });
+    await next.focus();
+    await p.keyboard.press("Enter");
+    await p.waitForTimeout(150);
+    await p.keyboard.press("Enter");
+    await p.waitForTimeout(150);
+    assert((await p.getByRole("dialog").count()) === 1, "second Enter closed the lightbox");
+    const focused = await p.evaluate(() => document.activeElement?.getAttribute("aria-label"));
+    assert(focused === "Next screenshot", `focus moved to ${focused}`);
+    await p.keyboard.press("Escape");
+  });
+
+  await check("section headlines are read out by screen readers", async () => {
+    await p.goto(BASE + "/", { waitUntil: "networkidle" });
+    const snap = await p.locator("main").ariaSnapshot();
+    for (const text of ["Six things we shipped.", "What's inside each one.", "How we build with Claude Code.", "The real git history.", "What we're building next."]) {
+      assert(snap.includes(text), `"${text}" is missing from the accessibility tree`);
+    }
+  });
+
   await check("unknown project and doc show the Not responding page", async () => {
     for (const path of ["/projects/nope", "/docs/nope"]) {
       await p.goto(BASE + path, { waitUntil: "networkidle" });
@@ -128,14 +177,42 @@ try {
     assert(inside(await phone.locator("#start-menu").boundingBox(), 375, 812), "start menu overflows the screen");
   });
 
+  await check("every section window shows up on a short landscape screen", async () => {
+    const short = await page({ viewport: { width: 844, height: 340 } });
+    for (const path of ["/", "/projects/polyos", "/docs"]) {
+      await short.goto(BASE + path, { waitUntil: "networkidle" });
+      await scrollThrough(short);
+      const bad = await hiddenWindows(short);
+      assert(bad.length === 0, `${path}: never shown: ${bad.join(", ")}`);
+    }
+  });
+
+  await check("with JavaScript off every section window is visible", async () => {
+    const nojs = await page({ javaScriptEnabled: false });
+    for (const path of ["/", "/projects/polyos", "/docs"]) {
+      await nojs.goto(BASE + path, { waitUntil: "load" });
+      const bad = await hiddenWindows(nojs);
+      assert(bad.length === 0, `${path}: invisible without JS: ${bad.join(", ")}`);
+    }
+  });
+
   const still = await page({ reducedMotion: "reduce" });
+
+  await check("with reduced motion every section ends up full size and in place", async () => {
+    for (const path of ["/", "/projects/polyos"]) {
+      await still.goto(BASE + path, { waitUntil: "networkidle" });
+      await scrollThrough(still);
+      const bad = await hiddenWindows(still, { transform: true });
+      assert(bad.length === 0, `${path}: still shrunk or hidden: ${bad.join(", ")}`);
+    }
+  });
 
   await check("with reduced motion the hero reads Cryptic Inc. right away", async () => {
     await still.goto(BASE + "/", { waitUntil: "domcontentloaded" });
-    const shown = await still.locator("h1 > span[aria-hidden] > span:last-child").first().textContent();
+    const shown = await still.locator("h1 span[aria-hidden] > span:last-child").first().textContent();
     assert(shown === "Cryptic Inc.", `hero shows "${shown}"`);
     await still.waitForTimeout(500);
-    const later = await still.locator("h1 > span[aria-hidden] > span:last-child").first().textContent();
+    const later = await still.locator("h1 span[aria-hidden] > span:last-child").first().textContent();
     assert(later === "Cryptic Inc.", `hero changed to "${later}"`);
   });
 } finally {

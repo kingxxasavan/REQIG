@@ -203,7 +203,7 @@ export const PROJECTS: Project[] = [
     live: { url: "https://web-templates.vercel.app", verified: false },
     source: {
       visibility: "public",
-      url: "https://github.com/kingxxasavan/Web---templates",
+      url: "https://github.com/kingxxasavan/Web---templates/tree/main",
       repo: "kingxxasavan/Web---templates",
       ref: "main",
     },

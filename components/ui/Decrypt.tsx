@@ -10,8 +10,9 @@ function prefersReducedMotion() {
 }
 
 // Text that scrambles through glyphs and resolves left to right the first time it is
-// seen. The real text is always in the DOM (server render, aria-label, and an invisible
-// copy that reserves the width), so nothing shifts and screen readers never hear glyphs.
+// seen. The real text is always in the DOM (a screen reader copy, and an invisible copy
+// that reserves the width), so nothing shifts and screen readers never hear glyphs.
+// (aria-label would be ignored on the <p> and <span> this often renders as.)
 export function Decrypt({
   text,
   as: Tag = "span",
@@ -61,7 +62,8 @@ export function Decrypt({
   }, [text]);
 
   return (
-    <Tag ref={ref} className={className} aria-label={text} onMouseEnter={hoverReplay ? play : undefined}>
+    <Tag ref={ref} className={className} onMouseEnter={hoverReplay ? play : undefined}>
+      <span className="sr-only">{text}</span>
       <span aria-hidden className="relative inline-block max-w-full">
         <span className="invisible">{text}</span>
         <span className="absolute inset-0">{shown}</span>

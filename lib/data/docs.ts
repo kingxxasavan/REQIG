@@ -39,7 +39,8 @@ const SETUP: Doc[] = PROJECTS.flatMap((p) =>
           group: "setup" as const,
           project: p.slug,
           file: `setup/${p.slug}.md`,
-          github: p.source.url.replace(/\/tree\/[^/]+$/, ""),
+          // the exact code the README snapshot came from (EPRI is pinned to 8bda4a9)
+          github: `https://github.com/${p.source.repo}/tree/${p.source.ref}`,
           summary: `The ${p.name} README: everything you need to run it yourself.`,
         },
       ]

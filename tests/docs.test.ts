@@ -19,8 +19,11 @@ test("titles follow the naming rule", () => {
   expect(getDoc("playbook")!.title).toBe("The Claude Code playbook");
 });
 
-test("setup docs link to github, build docs don't", () => {
-  expect(getDoc("polyos-setup")!.github).toBe("https://github.com/kingxxasavan/poly-os-7-debain-receration");
+test("setup docs link to the exact code they were snapshotted from, build docs don't", () => {
+  expect(getDoc("polyos-setup")!.github).toBe("https://github.com/kingxxasavan/poly-os-7-debain-receration/tree/main");
+  expect(getDoc("epri-setup")!.github).toBe("https://github.com/kingxxasavan/REQIG/tree/8bda4a9");
+  expect(getDoc("foundry-setup")!.github).toBe("https://github.com/kingxxasavan/Web---templates/tree/main");
+  expect(getDoc("marketplace-setup")!.github).toBe("https://github.com/kingxxasavan/Cryptic/tree/claude/intelligent-bohr-y60wy8");
   expect(getDoc("jarvis-build")!.github).toBeUndefined();
 });
 

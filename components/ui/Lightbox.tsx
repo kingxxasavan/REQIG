@@ -24,8 +24,10 @@ export function Lightbox({
   const n = images.length;
   const img = images[index];
 
+  // after the focus trap has remembered the thumbnail that opened us
+  useEffect(() => closeBtn.current?.focus(), []);
+
   useEffect(() => {
-    closeBtn.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") onIndex((index + 1) % n);
       else if (e.key === "ArrowLeft") onIndex((index - 1 + n) % n);
