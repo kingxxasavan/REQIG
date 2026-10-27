@@ -4,7 +4,9 @@
   "private": true,
   "description": "Cryptic Inc showcase: every project we shipped, how we built it with AI, and how to run it yourself",
   "scripts": {
+    "predev": "node scripts/copy-downloads.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/copy-downloads.mjs",
     "build": "next build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
